@@ -1,0 +1,14 @@
+{
+  "name": "dns_lookup_app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "html-minifier": "^4.0.0",
+    "node-dig-dns": "^0.3.0"
+  }
+}

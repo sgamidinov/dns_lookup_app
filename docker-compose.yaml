@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  dns_lookup_app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: dns_lookup_app
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:7890:3000"
