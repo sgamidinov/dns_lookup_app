@@ -21,6 +21,8 @@ const redirectToHomePageMiddleware = (request, response, next) => {
   response.redirect("/");
 };
 
+const ipCheckRegex = /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/g;
+
 app.use(express.json());
 app.use(redirectToHomePageMiddleware);
 
@@ -32,10 +34,15 @@ app.post("/api/v1/lookup", (request, response) => {
   try {
     const digParams = [];
     if (request.body.dns_server) {
-      digParams.push(`@${request.body.dns_server}`);
+      if (ipCheckRegex.test(request.body.dns_server)) {
+        digParams.push(`@${request.body.dns_server}`);
+      } else {
+        response.send({ error: "invalid ip address" });
+        return;
+      }
     }
     digParams.push(request.body.hostname);
-    dig(digParams)
+    dig(digParams, { raw: true })
       .then((result) => {
         response.send(result);
       })
