@@ -33,9 +33,10 @@ app.get("/", (_, response) => {
 app.post("/api/v1/lookup", (request, response) => {
   try {
     const digParams = [];
-    if (request.body.dns_server) {
-      if (ipCheckRegex.test(request.body.dns_server)) {
-        digParams.push(`@${request.body.dns_server}`);
+    const dnsIp = request.body.dns_server;
+    if (dnsIp) {
+      if (dnsIp.match(ipCheckRegex)) {
+        digParams.push(`@${dnsIp}`);
       } else {
         response.send({ error: "invalid ip address" });
         return;
